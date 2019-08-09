@@ -4,6 +4,7 @@ import random
 
 ypos = 41
 #standing and walking texture
+#added more changes for a test
 standing = Texture('plf:AlienGreen_front')
 walking = [Texture('plf:AlienGreen_walk1'),Texture('plf:AlienGreen_walk2')]
 
