@@ -53,12 +53,19 @@ class Game(Scene):
 		#walk_state
 		self.walk_state = -1 #state at the beginning when he is just standing
 		
+		#create the list for the falling coins (code for colisions)
+		self.list_of_coins = []
+	
+		
 	
 	def update(self):
 		if random.random() < .05:  #makes you spawn less coins
 			self.spawn_coins()
 			self.update_player()
-	
+			
+			#look for colisions
+			self.collisions_with_coins()
+			
 		
 	#VERY IMPORTANT, WATCH YOUR INDENTS, I HAD THIS AS PART OF THE SETUP FUNCTION, SO THE UPDATE FUNCTION WAS NOT BEING CALLED
 	#let's add movement' - this is defined in the update function
@@ -104,6 +111,26 @@ class Game(Scene):
 			 	 Action.remove()
 			 	)
 			)
+		
+		#list of coins falling (array of coin objects)
+		self.list_of_coins.append(coin)
+	
+	
+	#create the function for collisions with coins
+	def collisions_with_coins(self):
+		
+		#create a pointer to the player (just like CFRAME vector3), in 2D, we use Rect()
+		p_box = Rect(self.player.position.x- 20,32,40,65)
+		
+		for coinfalling in self.list_of_coins:
+			if coinfalling.frame.intersects(p_box):
+				sound.play_effect('arcade:Coin_2')
+				#remove the coin from the array (just like destroy in roblox)
+				coinfalling.remove_from_parent()
+				self.list_of_coins.remove(coinfalling)
+			
+		
+		
 	
 	
 	#let's add some laser action with the touch class'
